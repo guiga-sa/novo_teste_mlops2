@@ -1,0 +1,18 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: py scripts/preprocess.py
+    deps:
+    - path: data/raw/weatherAUS.csv
+      hash: md5
+      md5: a65cf8b8719b1a65db4f361eeec18457
+      size: 14094055
+    - path: scripts/preprocess.py
+      hash: md5
+      md5: 7392d72ee0d8e5176c39b2034ed398da
+      size: 1821
+    outs:
+    - path: data/processed/weather_cleaned.csv
+      hash: md5
+      md5: 548ab79c0963bcdb8355feeb258c2c37
+      size: 13306483

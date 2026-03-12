@@ -1,0 +1,8 @@
+stages:
+  preprocess:
+    cmd: py scripts/preprocess.py
+    deps:
+    - data/raw/weatherAUS.csv
+    - scripts/preprocess.py
+    outs:
+    - data/processed/weather_cleaned.csv
