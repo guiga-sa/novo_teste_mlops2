@@ -23,7 +23,7 @@ jobs:
           dvc remote modify origin --local user $DAGSHUB_USER
           dvc remote modify origin --local password $DAGSHUB_TOKEN
           
-          dvc pull                         # Baixa os dados do DagsHub
+          dvc pull data/raw/weatherAUS.csv.dvc --force                        # Baixa os dados do DagsHub
           dvc repro                        # Roda a pipeline (agora com pandas instalado!)
           
           # Cria o relatório
