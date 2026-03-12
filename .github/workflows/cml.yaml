@@ -18,16 +18,18 @@ jobs:
           DAGSHUB_USER: ${{ secrets.DAGSHUB_USER }}
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
-          # 1. Configura o acesso
+          # 1. Diz para o GitHub onde os dados moram (O link do DagsHub)
+          # O --force serve para garantir que ele sobrescreva qualquer config antiga
+          dvc remote add origin https://dagshub.com/guiga-sa/novo_teste_mlops2.dvc --force
+
+          # 2. Passa as chaves de acesso que estão nos Secrets
           dvc remote modify origin --local user $DAGSHUB_USER
           dvc remote modify origin --local password $DAGSHUB_TOKEN
+          dvc remote modify origin --local auth basic
           
-          # 2. Tenta puxar o dado bruto, mas não para se der erro
-          dvc pull data/raw/weatherAUS.csv.dvc || true
-          
-          # 3. FORÇA a execução (ignorando o cache problemático)
-          # Isso vai gerar o cleaned.csv e o model.pkl do zero no GitHub
-          dvc repro -f 
+          # 3. Agora sim, ele vai ter o mapa e a chave para buscar os dados
+          dvc pull data/raw/weatherAUS.csv.dvc
+          dvc repro -f
           
           # 4. Gera o relatório
           echo "## 🚀 Relatório de Treino Automático (CML)" > report.md
