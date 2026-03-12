@@ -6,3 +6,13 @@ stages:
     - scripts/preprocess.py
     outs:
     - data/processed/weather_cleaned.csv
+  train:
+    cmd: py scripts/train.py
+    deps:
+    - data/processed/weather_cleaned.csv
+    - scripts/train.py
+    outs:
+    - models/model.pkl
+    metrics:
+    - metrics.json:
+        cache: false

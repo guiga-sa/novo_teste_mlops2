@@ -16,3 +16,23 @@ stages:
       hash: md5
       md5: 548ab79c0963bcdb8355feeb258c2c37
       size: 13306483
+  train:
+    cmd: py scripts/train.py
+    deps:
+    - path: data/processed/weather_cleaned.csv
+      hash: md5
+      md5: 548ab79c0963bcdb8355feeb258c2c37
+      size: 13306483
+    - path: scripts/train.py
+      hash: md5
+      md5: 9a0b97f4ba8ffd17cc64aa1ae558975b
+      size: 1384
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 99ef5d682539618c13ca3f48aecb380e
+      size: 32
+    - path: models/model.pkl
+      hash: md5
+      md5: 2ee2caf0f4cbbf92550b4d1bc1a1f215
+      size: 410040
