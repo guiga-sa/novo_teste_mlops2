@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   preprocess:
-    cmd: py scripts/preprocess.py
+    cmd: python scripts/preprocess.py
     deps:
     - path: data/raw/weatherAUS.csv
       hash: md5
@@ -17,7 +17,7 @@ stages:
       md5: 548ab79c0963bcdb8355feeb258c2c37
       size: 13306483
   train:
-    cmd: py scripts/train.py
+    cmd: python scripts/train.py
     deps:
     - path: data/processed/weather_cleaned.csv
       hash: md5
