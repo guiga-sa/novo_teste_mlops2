@@ -32,9 +32,9 @@ jobs:
           dvc repro -f
           
           # 4. Gera o relatório
-          echo "## 🚀 Relatório de Treino Automático (CML)" > report.md
+          echo "##  Relatório de Treino Automático (CML)" > report.md
           echo "Acurácia: $(cat metrics.json)" >> report.md
-          echo "### 📉 Matriz de Confusão" >> report.md
+          echo "###  Matriz de Confusão" >> report.md
           echo "![](./confusion_matrix.png)" >> report.md
           
           cml comment create report.md
