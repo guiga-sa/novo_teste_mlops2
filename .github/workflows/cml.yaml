@@ -8,7 +8,6 @@ jobs:
       - uses: iterative/setup-cml@v1
       - uses: iterative/setup-dvc@v1
 
-      # ESSA ETAPA É O QUE ESTÁ FALTANDO:
       - name: Install dependencies
         run: |
           pip install pandas xgboost scikit-learn matplotlib joblib
@@ -19,20 +18,21 @@ jobs:
           DAGSHUB_USER: ${{ secrets.DAGSHUB_USER }}
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
-          # Configura o DVC
+          # 1. Configura o acesso
           dvc remote modify origin --local user $DAGSHUB_USER
           dvc remote modify origin --local password $DAGSHUB_TOKEN
           
-          # Tenta baixar, mas se der erro de cache, não para a execução (|| true)
+          # 2. Tenta puxar o dado bruto, mas não para se der erro
           dvc pull data/raw/weatherAUS.csv.dvc || true
           
-          # O -f (force) obriga a rodar os scripts mesmo sem o cache. 
-          # O GitHub vai gerar novos arquivos limpos e o novo modelo na hora.
+          # 3. FORÇA a execução (ignorando o cache problemático)
+          # Isso vai gerar o cleaned.csv e o model.pkl do zero no GitHub
           dvc repro -f 
           
-          # Relatório do CML
-          echo "## 🚀 Relatório de Treino Automático" > report.md
+          # 4. Gera o relatório
+          echo "## 🚀 Relatório de Treino Automático (CML)" > report.md
           echo "Acurácia: $(cat metrics.json)" >> report.md
           echo "### 📉 Matriz de Confusão" >> report.md
           echo "![](./confusion_matrix.png)" >> report.md
+          
           cml comment create report.md
