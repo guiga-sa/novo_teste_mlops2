@@ -7,25 +7,29 @@ jobs:
       - uses: actions/checkout@v3
       - uses: iterative/setup-cml@v1
       - uses: iterative/setup-dvc@v1
-      
+
+      # ESSA ETAPA É O QUE ESTÁ FALTANDO:
+      - name: Install dependencies
+        run: |
+          pip install pandas xgboost scikit-learn matplotlib joblib
+
       - name: Train model
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DVC_REMOTE_URL: https://dagshub.com/guiga-sa/novo_teste_mlops2.dvc
           DAGSHUB_USER: ${{ secrets.DAGSHUB_USER }}
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
-          # Configura DVC remotamente na máquina do GitHub
-          dvc remote add origin $DVC_REMOTE_URL --force
-          dvc remote modify origin --local auth basic
+          # Configura o DVC
           dvc remote modify origin --local user $DAGSHUB_USER
           dvc remote modify origin --local password $DAGSHUB_TOKEN
           
-          dvc pull                         # Baixa os dados
-          dvc repro                        # Roda a pipeline
+          dvc pull                         # Baixa os dados do DagsHub
+          dvc repro                        # Roda a pipeline (agora com pandas instalado!)
           
-          # Cria o relatório para o GitHub
-          echo "## Métricas do Modelo" > report.md
-          cat metrics.json >> report.md
+          # Cria o relatório
+          echo "## 🚀 Relatório de Treino Automático" > report.md
+          echo "Acurácia: $(cat metrics.json)" >> report.md
+          echo "### 📉 Matriz de Confusão" >> report.md
+          echo "![](./confusion_matrix.png)" >> report.md
           
-          cml comment create report.md     # Publica o comentário
+          cml comment create report.md
