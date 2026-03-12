@@ -1,13 +1,13 @@
 stages:
   preprocess:
-    cmd: py scripts/preprocess.py
+    cmd: python scripts/preprocess.py
     deps:
     - data/raw/weatherAUS.csv
     - scripts/preprocess.py
     outs:
     - data/processed/weather_cleaned.csv
   train:
-    cmd: py scripts/train.py
+    cmd: python scripts/train.py
     deps:
     - data/processed/weather_cleaned.csv
     - scripts/train.py
