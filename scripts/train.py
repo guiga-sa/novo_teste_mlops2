@@ -5,6 +5,8 @@ from sklearn.metrics import accuracy_score
 import joblib
 import json
 import os
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay
 
 def train_model():
     # 1. Carregar os dados limpos
@@ -38,6 +40,13 @@ def train_model():
     os.makedirs('models', exist_ok=True)
     joblib.dump(model, 'models/model.pkl')
     print("Modelo salvo em models/model.pkl")
+    
+    # 6. Gerar e salvar gráfico da Matriz de Confusão
+    print("Gerando gráfico de performance...")
+    plt.figure(figsize=(10, 8))
+    ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, cmap='Blues')
+    plt.title('Matriz de Confusão - Previsão de Chuva')
+    plt.savefig('confusion_matrix.png') # O CML vai usar esse arquivo!
 
 if __name__ == "__main__":
     train_model()
