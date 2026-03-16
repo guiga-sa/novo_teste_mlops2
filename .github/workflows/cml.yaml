@@ -30,11 +30,13 @@ jobs:
           # 3. Agora sim, ele vai ter o mapa e a chave para buscar os dados
           dvc pull data/raw/weatherAUS.csv.dvc
           dvc repro -f
-          
+          git fetch --prune
+
           # 4. Gera o relatório
           echo "##  Relatório de Treino Automático (CML)" > report.md
           echo "Acurácia: $(cat metrics.json)" >> report.md
           echo "###  Matriz de Confusão" >> report.md
           echo "![](./confusion_matrix.png)" >> report.md
-          
+          dvc metrics diff --show-md master > repots.md 
+
           cml comment create report.md
