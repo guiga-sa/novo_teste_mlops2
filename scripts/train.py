@@ -23,9 +23,15 @@ def train_model():
     # Dividir em treino e teste
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # 3. Treinar o modelo XGBoost
+# 3. Treinar o modelo XGBoost
     print("Treinando o modelo...")
-    model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42)
+    model = xgb.XGBClassifier(
+        max_depth=3,             # Reduz a profundidade máxima de cada árvore (o padrão é 6)
+        n_estimators=50,         # Reduz a quantidade total de árvores (o padrão é 100)
+        use_label_encoder=False, 
+        eval_metric='logloss', 
+        random_state=42
+    )
     model.fit(X_train, y_train)
 
     # 4. Avaliar e salvar métricas
