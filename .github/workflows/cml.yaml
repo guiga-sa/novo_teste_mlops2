@@ -40,6 +40,6 @@ jobs:
           echo "###  Matriz de Confusão" >> report.md
           echo "![](./confusion_matrix.png)" >> report.md
           echo "### Comparação de Métricas (Atual vs Main)" >> report.md
-          dvc metrics diff --md main >> repots.md 
+          dvc metrics diff --md origin/main >> repots.md 
 
           cml comment create report.md
